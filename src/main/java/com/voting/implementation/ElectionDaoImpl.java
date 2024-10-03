@@ -21,31 +21,30 @@ public class ElectionDaoImpl implements ElectionDao {
     private static final EntityManagerFactory emf = Persistence.createEntityManagerFactory("VotingSystemPU");
     private static final Logger LOGGER = Logger.getLogger(ElectionDaoImpl.class.getName());
 
-  @Override
-public void addElection(Election election) {
-    // Validation
-    if (election == null || election.getName() == null || election.getName().isEmpty()) {
-        throw new IllegalArgumentException("Election name is required.");
-    }
-
-    System.out.println("Adding election: " + election.getName());
-    EntityManager entityManager = emf.createEntityManager();
-    try {
-        entityManager.getTransaction().begin();
-        entityManager.persist(election);
-        entityManager.getTransaction().commit();
-        System.out.println("Election added successfully.");
-    } catch (Exception e) {
-        if (entityManager.getTransaction().isActive()) {
-            entityManager.getTransaction().rollback(); // Rollback if there's an exception
-            System.out.println("Transaction rolled back due to an error.");
+    @Override
+    public void addElection(Election election) {
+        // Validation
+        if (election == null || election.getName() == null || election.getName().isEmpty()) {
+            throw new IllegalArgumentException("Election name is required.");
         }
-        throw new RuntimeException("Failed to add election: " + election.getName(), e); // Throwing a custom exception
-    } finally {
-        entityManager.close();
-    }
-}
 
+        System.out.println("Adding election: " + election.getName());
+        EntityManager entityManager = emf.createEntityManager();
+        try {
+            entityManager.getTransaction().begin();
+            entityManager.persist(election);
+            entityManager.getTransaction().commit();
+            System.out.println("Election added successfully.");
+        } catch (Exception e) {
+            if (entityManager.getTransaction().isActive()) {
+                entityManager.getTransaction().rollback(); // Rollback if there's an exception
+                System.out.println("Transaction rolled back due to an error.");
+            }
+            throw new RuntimeException("Failed to add election: " + election.getName(), e); // Throwing a custom exception
+        } finally {
+            entityManager.close();
+        }
+    }
 
     @Override
     public List<Election> getAllElections() {
@@ -77,6 +76,7 @@ public void addElection(Election election) {
         }
         return election;
     }
+
     public List<String> getElectionPositions(int electionId) {
         List<String> positions = new ArrayList<>();
         EntityManager entityManager = emf.createEntityManager();
@@ -131,7 +131,8 @@ public void addElection(Election election) {
             entityManager.close();
         }
     }
-       @Override
+
+    @Override
     public void updateElectionStatus(int id, String status) {
         EntityManager em = emf.createEntityManager();
         EntityTransaction tx = em.getTransaction();
@@ -152,6 +153,27 @@ public void addElection(Election election) {
             em.close();
         }
     }
+    //dashboard
+//    @Override
+//    public int getTotalElectionCount() {
+//        EntityManager entityManager = emf.createEntityManager();
+//        Query query = entityManager.createQuery("SELECT COUNT(e) FROM Election e");
+//        return ((Long) query.getSingleResult()).intValue();
+//    }
+//
+//    @Override
+//    public int getActiveElectionCount() {
+//        EntityManager entityManager = emf.createEntityManager();
+//        Query query = entityManager.createQuery("SELECT COUNT(e) FROM Election e WHERE e.status = active");
+//        return ((Long) query.getSingleResult()).intValue();
+//    }
+//
+//    @Override
+//    public int getTotalVoteCount() {
+//        EntityManager entityManager = emf.createEntityManager();
+//        Query query = entityManager.createQuery("SELECT COUNT(v) FROM Vote v");
+//        return ((Long) query.getSingleResult()).intValue();
+//    }
 
     @FunctionalInterface
     interface TransactionalOperation {

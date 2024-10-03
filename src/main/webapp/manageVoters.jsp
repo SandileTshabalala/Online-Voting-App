@@ -37,7 +37,7 @@
             // Function to show success message after DELETE action
             function confirmDelete(id) {
                 if (confirm("Are you sure you want to delete this voter?")) {
-                    fetch('VoterStatusServlet?voterId=' + voterId, {
+                    fetch('VoterStatusServlet?voterId=' + id, {
                         method: 'DELETE'
                     }).then(response => response.json())
                             .then(data => {

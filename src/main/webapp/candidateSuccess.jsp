@@ -1,5 +1,5 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%@ page import="com.voting.models.Voter" %>
+<%@ page import="com.voting.models.Candidate" %>
 <%@ page import="jakarta.servlet.http.*" %>
 <!DOCTYPE html>
 <html lang="en">
@@ -74,7 +74,7 @@
             <div class="card-body">
                 <span class="checkmark">&#10004;</span>
                 <h1>Successfully Registered!</h1>
-                <p>Your Registreation is Under review you will be notufied. your status : <%= ((Voter) session.getAttribute("voter")).getStatus() %></p>
+                <p>Your Registration is Under review you will be notified. your status : <%= ((Candidate) session.getAttribute("candidate")).getStatus() %></p>
                 <p class="countdown">You will be redirected in <span id="countdown">5</span> seconds...</p>
             </div>
         </div>

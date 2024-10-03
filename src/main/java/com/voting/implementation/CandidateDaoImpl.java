@@ -6,6 +6,7 @@ import com.voting.models.Election;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.Persistence;
+import jakarta.persistence.Query;
 import jakarta.persistence.TypedQuery;
 import java.util.ArrayList;
 import java.util.List;
@@ -125,6 +126,13 @@ public class CandidateDaoImpl implements CandidateDao {
         entityManager.getTransaction().commit();
         entityManager.close();
     }
+    
+//        @Override
+//    public int getTotalCandidateCount() {
+//        EntityManager entityManager = emf.createEntityManager();
+//        Query query = entityManager.createQuery("SELECT COUNT(c) FROM Candidate c");
+//        return ((Long) query.getSingleResult()).intValue();
+//    }
    
     @Override
     public void approveCandidate(int id) {

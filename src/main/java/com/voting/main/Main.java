@@ -19,8 +19,8 @@ public class Main {
     public static void main(String[] args) {
         String smtpHost = "smtp.gmail.com"; 
         String smtpPort = "587"; // or 465 for SSL
-        String username = "sandil.saar@gmail.com"; 
-        String password = "mkizeevgsjkbvree"; 
+        String username = "youremail"; 
+        String password = "yourpassword"; 
         
         EmailService emailService = new EmailService(smtpHost, smtpPort, username, password);
         VoterEmailService voterEmailService = new VoterEmailService(emailService);

@@ -20,5 +20,7 @@ public interface CandidateDao {
     void approveCandidate(int id);
     void rejectCandidate(int id);
     List<Candidate> getCandidatesForElectionAndPosition(int electionId, String position);
+    //dashboard
+//    int getTotalCandidateCount();
 }
 

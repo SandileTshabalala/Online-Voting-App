@@ -24,4 +24,10 @@ public interface VoterDao {
     void markTokenAsUsed(Voter voter) throws Exception;
     List<Voter> searchVoters(String query) throws Exception;
     Voter findVoterByToken(String token);
+//    //dashboard
+//    int getTotalVoterCount();
+//    int getApprovedVoterCount();
+//    int getRejectedVoterCount();
+//    int getSuspendedVoterCount();
+//    int getDeletedVoterCount();
 }

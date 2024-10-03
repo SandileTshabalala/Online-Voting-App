@@ -16,6 +16,7 @@ import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.EntityTransaction;
 import jakarta.persistence.NoResultException;
 import jakarta.persistence.Persistence;
+import jakarta.persistence.Query;
 import jakarta.persistence.TypedQuery;
 import java.util.Collections;
 import org.mindrot.jbcrypt.BCrypt;
@@ -145,13 +146,13 @@ public class VoterDaoImpl implements VoterDao {
         try {
             entityManager.getTransaction().begin();
             Voter voter = entityManager.find(Voter.class, id);
-            if (voter != null) {          
-                entityManager.remove(voter);              
+            if (voter != null) {
+                entityManager.remove(voter);
             }
             entityManager.getTransaction().commit();
-        }  catch (Exception e) {
+        } catch (Exception e) {
             if (entityManager.getTransaction().isActive()) {
-                entityManager.getTransaction().rollback(); // Rollback if there's an exception
+                entityManager.getTransaction().rollback(); 
             }
             e.printStackTrace();
         } finally {
@@ -253,8 +254,44 @@ public class VoterDaoImpl implements VoterDao {
         }
         return voters;
     }
-    
-       @FunctionalInterface
+//    //dashboard
+//
+//    @Override
+//    public int getTotalVoterCount() {
+//        EntityManager entityManager = emf.createEntityManager();
+//        Query query = entityManager.createQuery("SELECT COUNT(v) FROM Voter v");
+//        return ((Long) query.getSingleResult()).intValue();
+//    }
+//
+//    @Override
+//    public int getApprovedVoterCount() {
+//        EntityManager entityManager = emf.createEntityManager();
+//        Query query = entityManager.createQuery("SELECT COUNT(v) FROM Voter v WHERE v.status = 'approved'");
+//        return ((Long) query.getSingleResult()).intValue();
+//    }
+//
+//    @Override
+//    public int getRejectedVoterCount() {
+//        EntityManager entityManager = emf.createEntityManager();
+//        Query query = entityManager.createQuery("SELECT COUNT(v) FROM Voter v WHERE v.status = 'rejected'");
+//        return ((Long) query.getSingleResult()).intValue();
+//    }
+//
+//    @Override
+//    public int getSuspendedVoterCount() {
+//        EntityManager entityManager = emf.createEntityManager();
+//        Query query = entityManager.createQuery("SELECT COUNT(v) FROM Voter v WHERE v.status = 'suspended'");
+//        return ((Long) query.getSingleResult()).intValue();
+//    }
+//
+//    @Override
+//    public int getDeletedVoterCount() {
+//        EntityManager entityManager = emf.createEntityManager();
+//        Query query = entityManager.createQuery("SELECT COUNT(v) FROM Voter v WHERE v.status = 'deleted'");
+//        return ((Long) query.getSingleResult()).intValue();
+//    }
+
+    @FunctionalInterface
     interface TransactionalOperation {
 
         void execute(EntityManager entityManager);

@@ -19,9 +19,28 @@ import jakarta.servlet.http.*;
  */
 public class VoterStatusServlet extends HttpServlet {
 
-    VoterDao voterDao = new VoterDaoImpl();
-    EmailService emailService = new EmailService("smtp.gmail.com", "587", "sandil.saar@gmail.com", "mkizeevgsjkbvree"); // Replace with your SMTP details
-    VoterEmailService voterEmailService = new VoterEmailService(emailService);
+    VoterDao voterDao;
+    EmailService emailService; 
+    VoterEmailService voterEmailService;
+    
+        @Override
+    public void init() throws ServletException {
+        super.init();
+        voterDao = new VoterDaoImpl();
+
+        String smtpHost = "smtp.gmail.com";
+        String smtpPort = "587";
+        String username = "youremail"; 
+        String password = "yourpassword";
+        
+        if (username == null || password == null) {
+            throw new ServletException("SMTP credentials are not set in environment variables.");
+        }
+
+        emailService = new EmailService(smtpHost, smtpPort, username, password);
+        voterEmailService = new VoterEmailService(emailService);
+    }
+
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

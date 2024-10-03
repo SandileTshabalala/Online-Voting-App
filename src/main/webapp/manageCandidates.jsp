@@ -49,6 +49,7 @@
                 <tr>
                     <th>ID</th>
                     <th>Full Name</th>
+                    <th>Email</th>
                     <th>Party Affiliation</th>
                     <th>Position</th>
                     <th>Profile Picture</th>
@@ -65,6 +66,7 @@
                 <tr>
                     <td><%= candidate.getCandidateId() %></td>
                     <td><%= candidate.getFullName() %></td>
+                    <td><%= candidate.getEmail() %></td>
                     <td><%= candidate.getPartyAffiliation() %></td>
                     <td><%= candidate.getPosition() %></td>
                     <td>

@@ -31,7 +31,7 @@ public class EmailService {
         props.put("mail.smtp.starttls.enable", "true");
         props.put("mail.smtp.host", smtpHost);
         props.put("mail.smtp.port", smtpPort);
-
+        props.put("mail.smtp.ssl.trust", "smtp.gmail.com");
         // Create a session with an Authenticator
         Session session = Session.getInstance(props, new Authenticator() {
             @Override
@@ -45,7 +45,7 @@ public class EmailService {
             Message msg = new MimeMessage(session);
             msg.setFrom(new InternetAddress(username));
             msg.setRecipients(Message.RecipientType.TO, InternetAddress.parse(recipient));
-            msg.setSubject("Notification");
+            msg.setSubject("Account Notification");
             msg.setText(message);
 
             // Send the email
