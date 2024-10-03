@@ -84,8 +84,7 @@
                 <ul class="nav-menu">
                     <li><b>Want to know, <%= ((Voter) session.getAttribute("voter")).getName() %>?</b></li>
                     <li><a href="home.jsp">Live Votes</a></li>
-                    <li><a href="vote.jsp">Vote Here</a></li>
-                    <li><a href="vote-stats.jsp">Voting Statistics</a></li>
+                    <li><a href="vote.jsp">Vote Here</a></li>                 
                     <li><a href="contact.jsp">Contact Us</a></li>
                     <li><a href="about.jsp">About Us</a></li>
                     <li><a href="logout.jsp" class="btn-logout">Logout</a></li>
