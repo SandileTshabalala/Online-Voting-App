@@ -100,7 +100,7 @@ public class CandidateDaoImpl implements CandidateDao {
         List<Candidate> candidates = new ArrayList<>();
 
         try {
-            candidates = entityManager.createQuery("SELECT c FROM Candidate c WHERE c.election.id = :electionId", Candidate.class)
+            candidates = entityManager.createQuery("SELECT c FROM Candidate c WHERE c.election.id = :electionId AND c.status = 'approved'", Candidate.class)
                     .setParameter("electionId", electionId)
                     .getResultList();
         } catch (Exception e) {
@@ -125,7 +125,7 @@ public class CandidateDaoImpl implements CandidateDao {
         entityManager.getTransaction().commit();
         entityManager.close();
     }
-
+   
     @Override
     public void approveCandidate(int id) {
         updateCandidateStatus(id, "Approved");

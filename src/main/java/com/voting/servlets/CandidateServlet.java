@@ -58,9 +58,9 @@ public class CandidateServlet extends HttpServlet {
         String endorsements = request.getParameter("endorsements");
 
         // File paths where files will be saved
-        String imagesPath = "C:/Users/USER/Desktop/voting/images/";
-        String videosPath = "C:/Users/USER/Desktop/voting/videos/";
-        String documentsPath = "C:/Users/USER/Desktop/voting/documents/";
+        String imagesPath = "C:/Users/USER/Documents/NetBeansProjects/votes/src/main/webapp/voting/images/";
+        String videosPath = "C:/Users/USER/Documents/NetBeansProjects/votes/src/main/webapp/voting/videos/";
+        String documentsPath = "C:/Users/USER/Documents/NetBeansProjects/votes/src/main/webapp/voting/documents/";
 
         // Create and populate the Candidate object
         Candidate candidate = new Candidate();

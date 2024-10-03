@@ -29,7 +29,7 @@ protected void doPost(HttpServletRequest request, HttpServletResponse response)
 
         if (voter != null) {
             if (!"Approved".equals(voter.getStatus())) {
-                request.setAttribute("errorMessage", "Your registration is" + voter.getStatus());
+                request.setAttribute("errorMessage", "Your acccount is " + voter.getStatus());
                 request.getRequestDispatcher("voterLogin.jsp").forward(request, response);
                 return;
             }

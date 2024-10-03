@@ -69,7 +69,7 @@ public class VoterStatusServlet extends HttpServlet {
     
        @Override
     protected void doDelete(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        String voterIdStr = request.getParameter("id");
+        String voterIdStr = request.getParameter("voterId");
         try {
             int voterId = Integer.parseInt(voterIdStr);
             voterDao.deleteVoter(voterId);
