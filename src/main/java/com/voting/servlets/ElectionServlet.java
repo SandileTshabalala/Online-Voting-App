@@ -12,6 +12,7 @@ import java.sql.SQLException;
 import java.util.*;
 import jakarta.servlet.*;
 import jakarta.servlet.http.*;
+import java.time.LocalDate;
 
 /**
  *
@@ -23,28 +24,45 @@ public class ElectionServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        String name = request.getParameter("name");
-        String description = request.getParameter("description");
-        String startDate = request.getParameter("startDate");
-        String endDate = request.getParameter("endDate");
-        String status = request.getParameter("status");
-        String positions = request.getParameter("positions");
+        String action = request.getParameter("action");
 
-        Election election = new Election();
-        election.setName(name);
-        election.setDescription(description);
-        election.setStartDate(startDate);
-        election.setEndDate(endDate);
-        election.setStatus(status);
-        election.setPositions(positions);
+        if ("create".equals(action)) {
+            // Handle election creation
+            String name = request.getParameter("name");
+            String description = request.getParameter("description");
+            String startDate = request.getParameter("startDate");
+            String endDate = request.getParameter("endDate");
+            String status = request.getParameter("status"); 
+            String positions = request.getParameter("positions");
 
-        try {
-            electionDao.addElection(election);
-            response.getWriter().write("{\"message\": \"Election created successfully\"}");
-            response.sendRedirect("elections.jsp");
-        } catch (Exception e) {  // Catch all exceptions
-            e.printStackTrace();
-            response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Error while creating the election: " + e.getMessage());
+            Election election = new Election();
+            election.setName(name);
+            election.setDescription(description);
+            election.setStartDate(startDate);
+            election.setEndDate(endDate);
+            election.setStatus(status);
+            election.setPositions(positions);
+
+            try {
+                electionDao.addElection(election);
+                response.sendRedirect("elections.jsp");
+            } catch (Exception e) {
+                e.printStackTrace();
+                response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Error while creating the election: " + e.getMessage());
+            }
+
+        } else if ("updateStatus".equals(action)) {
+            // Handle status update
+            int id = Integer.parseInt(request.getParameter("id"));
+            String status = request.getParameter("status");
+
+            try {
+                electionDao.updateElectionStatus(id, status);
+                response.setStatus(HttpServletResponse.SC_OK);
+            } catch (Exception e) {
+                e.printStackTrace();
+                response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Error updating status");
+            }
         }
     }
 
@@ -52,9 +70,19 @@ public class ElectionServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         try {
             List<Election> elections = electionDao.getAllElections();
+            // Check if any elections have ended and update their status to "inactive"
+            LocalDate currentDate = LocalDate.now();
+            for (Election election : elections) {
+                if (LocalDate.parse(election.getEndDate()).isBefore(currentDate) && !"inactive".equals(election.getStatus())) {
+                    election.setStatus("inactive");
+                    electionDao.updateElectionStatus(election.getId(), "inactive");
+                }
+            }
+
             request.setAttribute("elections", elections);
-            RequestDispatcher dispatcher = (RequestDispatcher) request.getRequestDispatcher("candidateRegister.jsp");
+            RequestDispatcher dispatcher = request.getRequestDispatcher("elections.jsp");
             dispatcher.forward(request, response);
+
         } catch (SQLException e) {
             e.printStackTrace();
             request.setAttribute("elections", Collections.emptyList());
@@ -83,7 +111,7 @@ public class ElectionServlet extends HttpServlet {
         String description = request.getParameter("description");
         String startDate = request.getParameter("startDate");
         String endDate = request.getParameter("endDate");
-        String status = request.getParameter("status");
+        String status = request.getParameter("status"); // Expecting "active" or "inactive"
         String positions = request.getParameter("positions");
 
         Election election = new Election();
@@ -92,7 +120,7 @@ public class ElectionServlet extends HttpServlet {
         election.setDescription(description);
         election.setStartDate(startDate);
         election.setEndDate(endDate);
-        election.setStatus(status);
+        election.setStatus(status); // Set the status
         election.setPositions(positions);
 
         try {

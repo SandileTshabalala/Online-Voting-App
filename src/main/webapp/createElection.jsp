@@ -48,10 +48,10 @@
                 const startDate = document.getElementById("startDate").value;
                 const endDate = document.getElementById("endDate").value;
 
-                // Validate date range
+                // Validate date 
                 if (!validateDates(startDate, endDate)) {
                     alert("Start date must be before or equal to the end date.");
-                    return false; // Prevent form submission
+                    return false;
                 }            
                return true;
             }

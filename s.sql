@@ -109,7 +109,37 @@ CREATE TABLE voting_system.voter_elections (
 );
 DROP INDEX votingToken ON voting_system.votes;
 ALTER TABLE voting_system.votes ADD position VARCHAR(255);
+
 ALTER TABLE voting_system.votes 
 ADD UNIQUE KEY unique_vote (votingToken, electionId, position);
 
+-- --to allow elections to delete any associattion For Candidates Table
+ALTER TABLE voting_system.candidates 
+DROP FOREIGN KEY candidates_ibfk_1;
 
+ALTER TABLE voting_system.candidates 
+ADD CONSTRAINT candidates_ibfk_1 
+FOREIGN KEY (electionId) 
+REFERENCES elections(id) 
+ON DELETE CASCADE;
+
+ -- --to allow elections to delete any associattion For Votes Table
+ -- --for elctions
+ALTER TABLE voting_system.votes 
+DROP FOREIGN KEY votes_ibfk_1; 
+
+ALTER TABLE voting_system.votes 
+ADD CONSTRAINT votes_ibfk_1 
+FOREIGN KEY (electionId) 
+REFERENCES elections(id) 
+ON DELETE CASCADE;
+
+-- --for candidates
+ALTER TABLE voting_system.votes
+DROP FOREIGN KEY votes_ibfk_2; 
+
+ALTER TABLE voting_system.votes 
+ADD CONSTRAINT votes_ibfk_2 
+FOREIGN KEY (candidateId) 
+REFERENCES candidates(id) 
+ON DELETE CASCADE;

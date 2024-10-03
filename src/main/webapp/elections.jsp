@@ -8,7 +8,7 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>election list</title>
+        <title>Election List</title>
         <style>
             table {
                 width: 100%;
@@ -44,6 +44,27 @@
                 }
             }
 
+            function confirmUpdate(id, status) {
+                if (confirm("Are you sure you want to update the status of this election?")) {
+                    fetch('ElectionServlet', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/x-www-form-urlencoded'
+                        },
+                        body: 'action=updateStatus&id=' + id + '&status=' + status
+                    }).then(response => {
+                        if (response.ok) {
+                            alert("Election status updated successfully!");
+                            window.location.reload(); // Refresh the page
+                        } else {
+                            alert("Failed to update election status.");
+                        }
+                    }).catch(error => {
+                        console.error('Error:', error);
+                        alert("An error occurred.");
+                    });
+                }
+            }
         </script>
     </head>
     <body>
@@ -74,14 +95,24 @@
             </thead>
             <tbody>
                 <% if (elections != null && !elections.isEmpty()) {
-                        for (Election election : elections) {%>
+                        for (Election election : elections) { 
+                            String currentStatus = election.getStatus();
+                            String endDate = election.getEndDate();
+                            String currentDate = new java.text.SimpleDateFormat("yyyy-MM-dd").format(new java.util.Date());
+
+                            // close the election if the end date has passed
+                            if (endDate != null && endDate.compareTo(currentDate) < 0 && !currentStatus.equals("Inactive")) {
+                                electionDao.updateElectionStatus(election.getId(), "Inactive");
+                                currentStatus = "Inactive"; 
+                            }
+                %>
                 <tr>
                     <td><%= election.getId()%></td>
                     <td><%= election.getName()%></td>
                     <td><%= election.getDescription()%></td>
                     <td><%= election.getStartDate()%></td>
                     <td><%= election.getEndDate()%></td>
-                    <td><%= election.getStatus()%></td>
+                    <td><%= currentStatus %></td>
                     <td><%= election.getPositions()%></td>
                     <td>
                         <form action="ElectionServlet" method="post">
@@ -89,6 +120,14 @@
                             <input type="submit" value="Edit">
                         </form>
                         <button onclick="confirmDelete(<%= election.getId()%>)">Delete</button>
+                        <%-- Update Status Button --%>
+                        <% if (!currentStatus.equals("Inactive")) { %>
+                        <button onclick="confirmUpdate(<%= election.getId() %>, '<%= currentStatus.equals("Active") ? "Inactive" : "Active" %>')">
+                            Set <%= currentStatus.equals("Active") ? "Inactive" : "Active" %>
+                        </button>
+                        <% } else { %>
+                        <button disabled>Closed</button>
+                        <% } %>
                     </td>
                 </tr>
                 <%  }
@@ -99,6 +138,6 @@
                 <% }%>
             </tbody>
         </table>
-            <a href="admin.jsp"><button>Go back</button> 
+        <a href="admin.jsp"><button>Go back</button></a>
     </body>
 </html>

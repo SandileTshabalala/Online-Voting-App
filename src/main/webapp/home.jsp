@@ -139,7 +139,7 @@
             }
 
         </style>
-        <script>
+              <script>
           const electionId = <%= election.getId() %>;
           const contextPath = '<%= request.getContextPath() %>';
 

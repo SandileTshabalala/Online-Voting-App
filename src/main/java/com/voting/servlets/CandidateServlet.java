@@ -112,7 +112,8 @@ public class CandidateServlet extends HttpServlet {
                 // Register the candidate with electionId
                 candidateDao.registerCandidate(candidate, electionId);
                 HttpSession session = request.getSession();
-                session.setAttribute("candidate", candidate); // Redirect to success page
+                
+                session.setAttribute("candidate", candidate); 
                 request.setAttribute("message", "Your application is under review. We will contact you via email. Status: Pending.");
                 request.getRequestDispatcher("candidateSuccess.jsp").forward(request, response);
             } else {

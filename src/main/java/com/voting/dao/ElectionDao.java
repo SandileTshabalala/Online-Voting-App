@@ -20,4 +20,5 @@ public interface ElectionDao {
     List<String> getElectionPositions(int id) throws SQLException;
     void updateElection(Election election) throws SQLException;
     void deleteElection(int id) throws SQLException;
+     void updateElectionStatus(int id, String status);
 }

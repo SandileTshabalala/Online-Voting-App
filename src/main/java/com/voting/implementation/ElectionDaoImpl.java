@@ -77,25 +77,6 @@ public void addElection(Election election) {
         }
         return election;
     }
-
-//    @Override
-//    public List<String> getElectionPositions(int electionId) {
-//        EntityManager entityManager = emf.createEntityManager();
-//        List<String> positions = new ArrayList<>();
-//        try {
-//            Election election = entityManager.find(Election.class, electionId);
-//            if (election != null) {
-//                // Assuming positions is a comma-separated string in the Election entity
-//                String positionsStr = election.getPositions();
-//                if (positionsStr != null && !positionsStr.isEmpty()) {
-//                    positions = Arrays.asList(positionsStr.split(","));
-//                }
-//            }
-//        } finally {
-//            entityManager.close();
-//        }
-//        return positions;
-//    }
     public List<String> getElectionPositions(int electionId) {
         List<String> positions = new ArrayList<>();
         EntityManager entityManager = emf.createEntityManager();
@@ -148,6 +129,27 @@ public void addElection(Election election) {
             e.printStackTrace();
         } finally {
             entityManager.close();
+        }
+    }
+       @Override
+    public void updateElectionStatus(int id, String status) {
+        EntityManager em = emf.createEntityManager();
+        EntityTransaction tx = em.getTransaction();
+        try {
+            tx.begin();
+            Election election = em.find(Election.class, id);
+            if (election != null) {
+                election.setStatus(status);
+                em.merge(election);
+            }
+            tx.commit();
+        } catch (Exception e) {
+            if (tx.isActive()) {
+                tx.rollback();
+            }
+            throw new RuntimeException("Error updating election status", e);
+        } finally {
+            em.close();
         }
     }
 

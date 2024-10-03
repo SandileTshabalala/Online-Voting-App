@@ -91,5 +91,17 @@
         </span>
     </h2>
     <h2>Token <%= voter.isTokenUsed() ? "Used" : "Not Yet Used" %></h2>
+        <script>
+        // JavaScript function to show alert if the voting token has already been used
+        function checkTokenUsed() {
+            const tokenUsed = <%= request.getAttribute("tokenUsed") != null ? request.getAttribute("tokenUsed") : "false" %>;
+            if (tokenUsed === true) {
+                alert("Your voting token has already been used. You cannot vote again.");
+            }
+        }
+
+        // Call the function on page load
+        window.onload = checkTokenUsed;
+    </script>
 </body>
 </html>
