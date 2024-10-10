@@ -13,6 +13,8 @@ import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.google.gson.annotations.Expose;
 import jakarta.persistence.*;
 import java.io.Serializable;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
 import java.util.List;
 
@@ -27,10 +29,13 @@ public class Election implements Serializable {
     private String name;
     @Column(name = "description")
     private String description;
+    
     @Column(name = "startDate")
-    private String startDate;
+    private LocalDate startDate;
+    
     @Column(name = "endDate")
-    private String endDate;
+    private LocalDate endDate;
+    
     @Column(name = "status")
     private String status;
     @Column(name = "positions")
@@ -41,7 +46,6 @@ public class Election implements Serializable {
     @OneToMany(mappedBy = "election", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<Candidate> candidates;
 
-    // Many-to-Many relationship with Voters
     @ManyToMany(mappedBy = "elections")
     @JsonIgnore // Using Jackson
     private List<Voter> voters;
@@ -49,7 +53,7 @@ public class Election implements Serializable {
     public Election() {
     }
 
-    public Election(int id, String name, String description, String startDate, String endDate, String status, String positions, List<Candidate> candidates, List<Voter> voters) {
+    public Election(int id, String name, String description, LocalDate startDate, LocalDate endDate, String status, String positions, List<Candidate> candidates, List<Voter> voters) {
         this.id = id;
         this.name = name;
         this.description = description;
@@ -86,18 +90,20 @@ public class Election implements Serializable {
     }
 
     public String getStartDate() {
-        return startDate;
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        return startDate.format(formatter);
     }
 
-    public void setStartDate(String startDate) {
+    public void setStartDate(LocalDate startDate) {
         this.startDate = startDate;
     }
 
     public String getEndDate() {
-        return endDate;
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        return endDate.atTime(23, 59, 59).format(formatter);
     }
 
-    public void setEndDate(String endDate) {
+    public void setEndDate(LocalDate endDate) {
         this.endDate = endDate;
     }
 

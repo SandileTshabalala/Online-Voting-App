@@ -84,9 +84,10 @@ public class CandidateDaoImpl implements CandidateDao {
 
         try {
             TypedQuery<Candidate> query = entityManager.createQuery(
-                    "SELECT c FROM Candidate c WHERE c.election.id = :electionId AND c.position = :position", Candidate.class);
+                    "SELECT c FROM Candidate c WHERE c.election.id = :electionId AND c.position = :position AND c.status = :status", Candidate.class);
             query.setParameter("electionId", electionId);
             query.setParameter("position", position);
+            query.setParameter("status", "Approved");
             candidates = query.getResultList();
         } finally {
             entityManager.close();
@@ -101,8 +102,10 @@ public class CandidateDaoImpl implements CandidateDao {
         List<Candidate> candidates = new ArrayList<>();
 
         try {
-            candidates = entityManager.createQuery("SELECT c FROM Candidate c WHERE c.election.id = :electionId AND c.status = 'approved'", Candidate.class)
+            candidates = entityManager.createQuery(
+                    "SELECT c FROM Candidate c WHERE c.election.id = :electionId AND c.status = :status", Candidate.class)
                     .setParameter("electionId", electionId)
+                    .setParameter("status", "Approved") 
                     .getResultList();
         } catch (Exception e) {
             e.printStackTrace();
@@ -126,14 +129,13 @@ public class CandidateDaoImpl implements CandidateDao {
         entityManager.getTransaction().commit();
         entityManager.close();
     }
-    
+
 //        @Override
 //    public int getTotalCandidateCount() {
 //        EntityManager entityManager = emf.createEntityManager();
 //        Query query = entityManager.createQuery("SELECT COUNT(c) FROM Candidate c");
 //        return ((Long) query.getSingleResult()).intValue();
 //    }
-   
     @Override
     public void approveCandidate(int id) {
         updateCandidateStatus(id, "Approved");

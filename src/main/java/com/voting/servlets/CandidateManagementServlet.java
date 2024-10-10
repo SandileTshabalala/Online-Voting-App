@@ -22,7 +22,7 @@ public class CandidateManagementServlet extends HttpServlet {
 
         String smtpHost = "smtp.gmail.com";
         String smtpPort = "587";
-        String username = "youremail"; 
+        String username = "youremail";
         String password = "yourpassword";
 
         if (username == null || password == null) {

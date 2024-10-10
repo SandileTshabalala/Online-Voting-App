@@ -10,31 +10,86 @@
         <meta charset="UTF-8">
         <title>Voter Management</title>
         <style>
+            .search-bar{
+                float:  right;
+            }
+            h1{
+                text-align: center;
+            }
             table {
-                width: 100%;
+                width: auto;
+                border-spacing: 0 5px;
+                
+                background-color: #fff;
+                box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+                
+                 width: 100%;
                 border-collapse: collapse;
-                margin-top: 20px;
+                margin-bottom: 20px;
             }
             th, td {
-                border: 1px solid #ccc;
-                padding: 8px;
+                padding: 10px 12px;
                 text-align: left;
+                border: 1px solid #ddd;
             }
             th {
-                background-color: #f2f2f2;
+                background-color: #18181B;
+                color: white;
             }
-            .action-buttons form {
-                display: inline;
+            tr:hover {
+                background-color: #f1f1f1;
             }
-            .action-buttons button {
-                margin-right: 5px;
+            .action-buttons {
+/*                display: inline-flex;*/
+/*                gap: 5px;*/
             }
-            .search-bar {
-                margin-bottom: 20px;
+            button {
+                background-color: #18181B;
+                color: white;
+                border: none;
+                margin: 3px;
+                padding: 5px 5px;
+                border-radius: 4px;
+                cursor: pointer;
+                font-size: 14px;
+            }
+            button:hover {
+                background-color: #18181B;
+            }
+            .candidate-info {
+                display: flex;
+                align-items: center;
+            }
+            .candidate-image {
+                margin-right: 10px;
+            }
+
+            .candidate-image img {
+                width: 40px;
+                height: auto;
+                border-radius: 50%;
+            }
+            .candidate-details p {
+                margin: 0;
+                font-size: 14px;
+                color: #333;
+            }
+
+            @media (max-width: 600px) {
+                th, td {
+                    padding: 8px;
+                }
+
+                .candidate-image img {
+                    width: 35px;
+                }
+
+                .candidate-details p {
+                    font-size: 12px;
+                }
             }
         </style>
         <script>
-            // Function to show success message after DELETE action
             function confirmDelete(id) {
                 if (confirm("Are you sure you want to delete this voter?")) {
                     fetch('VoterStatusServlet?voterId=' + id, {
@@ -100,16 +155,17 @@
                     <td><%= voter.getPhoneNumber() %></td>
                     <td><%= voter.getStatus() %></td>
                     <td><%= voter.getFormattedRegistrationDate() %></td>
-                    <td class="action-buttons">
+                    <td class="action-buttons" >
                         <form action="VoterStatusServlet" method="post">
                             <input type="hidden" name="voterId" value="<%= voter.getId() %>"> 
-                            <button type="submit" name="action" value="approve">Approve</button>
-                            <button type="submit" name="action" value="reject">Reject</button>
+                            <button type="submit" name="action" value="approve">Approve</button><br>
+                            <button type="submit" name="action" value="reject">Reject</button><br>
                             <button type="submit" name="action" value="suspend">Suspend</button>
                         </form>
 
                         <button onclick="confirmDelete(<%= voter.getId() %>)">Delete</button>
                     </td>
+
                 </tr>
                 <%
                         }

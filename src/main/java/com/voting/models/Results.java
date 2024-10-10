@@ -6,7 +6,7 @@ import java.util.Map;
 
 public class Results implements Serializable {
     private int electionId;
-    private Map<Integer, Integer> candidateVotes; // Stores candidateId -> voteCount
+    private Map<Integer, Integer> candidateVotes;
     private int totalVotes;
 
     public Results() {}

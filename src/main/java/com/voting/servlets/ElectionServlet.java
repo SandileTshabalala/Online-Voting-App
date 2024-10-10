@@ -38,8 +38,8 @@ public class ElectionServlet extends HttpServlet {
             Election election = new Election();
             election.setName(name);
             election.setDescription(description);
-            election.setStartDate(startDate);
-            election.setEndDate(endDate);
+            election.setStartDate(LocalDate.parse(startDate));
+            election.setEndDate(LocalDate.parse(endDate));
             election.setStatus(status);
             election.setPositions(positions);
 
@@ -69,8 +69,7 @@ public class ElectionServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         try {
-            List<Election> elections = electionDao.getAllElections();
-            // Check if any elections have ended and update their status to "inactive"
+            List<Election> elections = electionDao.getAllElections();           
             LocalDate currentDate = LocalDate.now();
             for (Election election : elections) {
                 if (LocalDate.parse(election.getEndDate()).isBefore(currentDate) && !"inactive".equals(election.getStatus())) {
@@ -118,8 +117,8 @@ public class ElectionServlet extends HttpServlet {
         election.setId(electionId);
         election.setName(name);
         election.setDescription(description);
-        election.setStartDate(startDate);
-        election.setEndDate(endDate);
+        election.setStartDate(LocalDate.parse(startDate));
+        election.setEndDate(LocalDate.parse(endDate));
         election.setStatus(status); // Set the status
         election.setPositions(positions);
 

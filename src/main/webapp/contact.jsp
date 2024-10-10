@@ -60,7 +60,7 @@
             footer {
                 margin-top: 50px;
                 padding: 20px 0;
-                background-color: #007bff;
+                background-color: #28A745;
                 color: #fff;
                 text-align: center;
             }

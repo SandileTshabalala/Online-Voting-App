@@ -31,8 +31,8 @@ public class EmailService {
         props.put("mail.smtp.starttls.enable", "true");
         props.put("mail.smtp.host", smtpHost);
         props.put("mail.smtp.port", smtpPort);
-        props.put("mail.smtp.ssl.trust", "smtp.gmail.com");
-        // Create a session with an Authenticator
+//        props.put("mail.smtp.ssl.trust", "smtp.gmail.com");
+//        // Create a session with an Authenticator
         Session session = Session.getInstance(props, new Authenticator() {
             @Override
             protected PasswordAuthentication getPasswordAuthentication() {

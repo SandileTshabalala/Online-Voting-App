@@ -36,30 +36,3 @@ public class ResultsDaoImpl implements ResultsDao {
     }
 
 }
-//    @Override
-//    public Results getResultsForElection(int electionId) {
-//        Results results = new Results(electionId);
-//
-//        EntityManager em = emf.createEntityManager();
-//        try {
-//            // Use JPQL to retrieve the vote counts
-//            String jpql = "SELECT v.candidateId, COUNT(v) AS voteCount "
-//                    + "FROM Votes v WHERE v.electionId = :electionId "
-//                    + "GROUP BY v.candidateId";
-//            TypedQuery<Object[]> query = em.createQuery(jpql, Object[].class);
-//            query.setParameter("electionId", electionId);
-//
-//            // Execute the query and process results
-//            for (Object[] result : query.getResultList()) {
-//                int candidateId = (Integer) result[0];
-//                long voteCount = (Long) result[1];
-//                results.addVote(candidateId, (int) voteCount); // Adds the candidate and their vote count
-//            }
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        } finally {
-//            em.close(); // Ensure EntityManager is closed
-//        }
-//
-//        return results;
-//    }

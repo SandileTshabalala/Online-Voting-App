@@ -60,6 +60,10 @@
         <servlet-name>VoteServlet</servlet-name>
         <servlet-class>com.voting.servlets.VoteServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>FileDownloadServlet</servlet-name>
+        <servlet-class>com.voting.filehandling.FileDownloadServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>VoterLoginServlet</servlet-name>
         <url-pattern>/VoterLoginServlet</url-pattern>
@@ -119,6 +123,10 @@
     <servlet-mapping>
         <servlet-name>VoteServlet</servlet-name>
         <url-pattern>/VoteServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>FileDownloadServlet</servlet-name>
+        <url-pattern>/FileDownloadServlet</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

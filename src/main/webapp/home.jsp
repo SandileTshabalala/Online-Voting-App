@@ -11,18 +11,11 @@
 <%@ page import="com.voting.models.Voter" %>
 <%@ page import="com.voting.models.Results" %>
 <%
-    
     ElectionDao electionDao = new ElectionDaoImpl();
     List<Election> elections = electionDao.getAllElections();
     CandidateDao candidateDao = new CandidateDaoImpl();
     ResultsDao resultsDao = new ResultsDaoImpl();
-
-    if (elections != null && !elections.isEmpty()) {
-        for (Election election : elections) {
-           
-            Results results = resultsDao.calculateElectionResults(election.getId());
-            List<Candidate> candidates = candidateDao.getCandidatesForElection(election.getId());
-           
+    boolean hasActiveElections = false; 
 %>
 <!DOCTYPE html>
 <html lang="en">
@@ -89,6 +82,9 @@
             header {
                 background-color: #4CAF50;
                 color: white;
+                width: 100%;
+                border-bottom-left-radius: 12px ;
+                border-bottom-right-radius: 12px;
                 padding: 20px 0;
                 text-align: center;
                 box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
@@ -129,7 +125,7 @@
                 background-color: #c0392b;
             }
             footer {
-                background-color: #333;
+                background-color: #28A745;
                 color: white;
                 text-align: center;
                 padding: 15px 0;
@@ -137,50 +133,47 @@
                 bottom: 0;
                 box-shadow: 0 -4px 6px rgba(0, 0, 0, 0.1);
             }
-
         </style>
-              <script>
-          const electionId = <%= election.getId() %>;
-          const contextPath = '<%= request.getContextPath() %>';
+        <script>
+      const contextPath = '<%= request.getContextPath() %>';
 
+      function fetchLiveResults(electionId) {
+          fetch(`${contextPath}/LiveResultsServlet?electionId=${electionId}`)
+                          .then(response => {
+                              if (!response.ok) {
+                                  throw new Error('Network response was not ok: ' + response.statusText);
+                              }
+                              return response.json();
+                          })
+                          .then(data => {
+                              const candidates = data.candidates;
+                              const totalVotes = data.totalVotes;
 
-          function fetchLiveResults() {
-              fetch(`${contextPath}/LiveResultsServlet?electionId=${electionId}`)
-                              .then(response => {
-                                  if (!response.ok) {
-                                      throw new Error('Network response was not ok: ' + response.statusText);
+                              candidates.forEach(candidate => {
+                                  const row = document.getElementById(`candidate-row-${candidate.id}`);
+                                  if (row) {
+                                      row.querySelector('.votesCount').innerText = candidate.votesCount;
+                                      row.querySelector('.progress-bar-fill').style.width = `${candidate.votePercentage}%`;
+                                      row.querySelector('.percentage').innerText = (candidate.votePercentage).toFixed(2) + '%';
                                   }
-                                  return response.json();
-                              })
-                              .then(data => {
-                                  const candidates = data.candidates;
-                                  const totalVotes = data.totalVotes;
-
-
-                                  candidates.forEach(candidate => {
-                                      const row = document.getElementById(`candidate-row-${candidate.id}`);
-                                      if (row) {
-                                          row.querySelector('.votesCount').innerText = candidate.votesCount;
-                                          row.querySelector('.progress-bar-fill').style.width = `${candidate.votePercentage}%`;                                      
-                                          row.querySelector('.percentage').innerText = (candidate.votePercentage).toFixed(2) + '%';
-                                      }
-                                  });
-
-
-                                  document.getElementById('totalVotes').innerText = totalVotes;
-                              })
-                              .catch(error => {
-                                  console.error('Error fetching live results:', error);
                               });
+
+                              document.getElementById('totalVotes').innerText = totalVotes;
+                          })
+                          .catch(error => {
+                              console.error('Error fetching live results:', error);
+                          });
+              }
+
+              window.onload = function () {
+                  const electionId = <%= elections.isEmpty() ? -1 : elections.get(0).getId() %>;
+                  if (electionId !== -1) {
+                      fetchLiveResults(electionId);
+                      // Fetch live results every 5 seconds
+                      setInterval(() => fetchLiveResults(electionId), 5000);
                   }
-
-                  // Fetch live results every 5 seconds
-                  setInterval(fetchLiveResults, 5000);
-
-
-                  window.onload = fetchLiveResults;
+              };
         </script>
-
     </head>
     <body>
         <header>
@@ -192,19 +185,25 @@
                 <ul class="nav-menu">
                     <li><b>Welcome, <%= ((Voter) session.getAttribute("voter")).getName() %>!</b></li>
                     <li><a href="home.jsp">Live Votes</a></li>
-                    <li><a href="vote.jsp">Vote Here</a></li> 
+                    <li><a href="results.jsp">Results</a></li>
+                    <li><a href="vote.jsp">Vote Here</a></li>
                     <li><a href="contact.jsp">Contact Us</a></li>
                     <li><a href="about.jsp">About Us</a></li>
-                    <li><a href="logout.jsp" class="btn-logout">Logout</a></li>
+                    <li  style="background-color:#28A745"><a href="logout.jsp" class="btn-logout">Logout</a></li>
                 </ul>
             </section>
         </nav>
 
-        <h1>Live Vote Count</h1>
-        <!-- Display the election name -->
-
-        <h2>Election Results: <%= election.getName() %></h2>
-        <p>Total Votes: <span id="totalVotes"><%results.getTotalVotes(); %></span></p>
+        <h1  style="color:#28A745">Live Vote Count</h1>
+        <%
+            if (elections != null && !elections.isEmpty()) {
+                hasActiveElections = true; 
+                for (Election election : elections) {
+                    Results results = resultsDao.calculateElectionResults(election.getId());
+                    List<Candidate> candidates = candidateDao.getCandidatesForElection(election.getId());
+        %>
+        <h2  style="color:#28A745">Election Results: <%= election.getName() %></h2>
+        <p>Total Votes: <span id="totalVotes"><%= results.getTotalVotes() %></span></p>
 
         <table>
             <thead>
@@ -216,21 +215,23 @@
                 </tr>
             </thead>
             <tbody>
-                <%                    
+                <%
                     if (candidates != null && !candidates.isEmpty()) {
                         for (Candidate candidate : candidates) {
                             int voteCount = results.getCandidateVotes().getOrDefault(candidate.getId(), 0);
                             double votePercentage = results.getTotalVotes() > 0 ? (voteCount / (double) results.getTotalVotes()) * 100 : 0.0;
                             String formattedVotePercentage = String.format("%.2f", votePercentage);
                 %>
-
                 <tr id="candidate-row-<%= candidate.getId() %>">
                     <td>
                         <div class="candidate-info">
                             <div class="candidate-image">
-                                <img src="<%= candidate.getprofilePictureUrl() != null ? candidate.getprofilePictureUrl() : "default-profile.png" %>" alt="<%= candidate.getFullName() %>'s Profile Picture" width="50" height="50">
+                                <img src="<%= request.getContextPath() %>/FileDownloadServlet?type=image&file=<%= candidate.getprofilePictureUrl() != null ? candidate.getprofilePictureUrl() : "default-profile.png" %>" 
+                                     alt="<%= candidate.getFullName() %>'s Profile Picture" width="50" height="50">
+
                             </div>
                             <div class="candidate-details">
+                                <p><strong>Candidate Id:</strong> <%= candidate.getCandidateId() %></p>
                                 <p><strong>Full Name:</strong> <%= candidate.getFullName() %></p>
                                 <p><strong>Party:</strong> <%= candidate.getPartyAffiliation() %></p>
                             </div>
@@ -240,38 +241,35 @@
                     <td>
                         <div class="progress-bar">
                             <div class="progress-bar-fill" style="width: <%= votePercentage %>%;"></div>
-
                             <span class="percentage"><%= formattedVotePercentage %>%</span>
-
                         </div>
                     </td>
                     <td><%= candidate.getPosition() %></td>
                 </tr>
-                <% 
-                    } 
-                } else { 
+                <%
+                        }
+                    } else {
                 %>
                 <tr>
                     <td colspan="4">No candidates available</td>
                 </tr>
-                <% 
-                } 
+                <%
+                    }
                 %>
             </tbody>
         </table>
-
-        <% 
+        <%
                 } // End for loop for elections
-            } else { 
+            } // End if for checking elections
+            else {
         %>
-        <p>No elections available</p>
-        <% 
-            } 
+        <p>No active elections at the moment.</p>
+        <%
+            }
         %>
 
-        <!-- Footer -->
         <footer>
-            <p>&copy; 2024 Online Voting System. All Rights Reserved.</p>
+            <p>&copy; <%= java.time.Year.now() %> Online Voting System. All rights reserved.</p>
         </footer>
     </body>
 </html>

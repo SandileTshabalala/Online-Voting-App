@@ -166,11 +166,6 @@
     <%
         } // End if check for elections
     %>
-
-    <!-- Footer -->
-    <footer>
-        <p>&copy; 2024 Online Voting System. All Rights Reserved.</p>
-    </footer>
 </body>
 </html>
    <form action="SubmitVoteServlet" method="POST">

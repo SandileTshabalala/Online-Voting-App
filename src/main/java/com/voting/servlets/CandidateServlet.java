@@ -55,10 +55,10 @@ protected void doPost(HttpServletRequest request, HttpServletResponse response) 
     String manifestoText = request.getParameter("manifestoText");
     String endorsements = request.getParameter("endorsements");
 
-    // File paths where files will be saved
-    String imagesPath = "C:/Users/USER/Documents/NetBeansProjects/votes/src/main/webapp/voting/images/";
-    String videosPath = "C:/Users/USER/Documents/NetBeansProjects/votes/src/main/webapp/voting/videos/";
-    String documentsPath = "C:/Users/USER/Documents/NetBeansProjects/votes/src/main/webapp/voting/documents/";
+    // File paths where files will be saved"
+    String imagesPath = "C:\\Users\\USER\\Documents\\NetBeansProjects\\votes\\src\\main\\webapp\\uploads\\voting\\images\\";
+    String videosPath = "C:\\Users\\USER\\Documents\\NetBeansProjects\\votes\\src\\main\\webapp\\uploads\\voting\\videos\\";
+    String documentsPath = "C:\\Users\\USER\\Documents\\NetBeansProjects\\votes\\src\\main\\webapp\\uploads\\voting\\documents\\";
 
     // Create and populate the Candidate object
     Candidate candidate = new Candidate();
@@ -97,22 +97,22 @@ protected void doPost(HttpServletRequest request, HttpServletResponse response) 
             }
 
             // Save supporting documents
-            Collection<Part> parts = request.getParts(); // Get all parts
+            Collection<Part> parts = request.getParts(); 
             for (Part part : parts) {
                 if ("supportingDocuments".equals(part.getName())) {
                     if (part.getSize() > 0) {
                         String supportingDocumentsFileName = getFileName(part);
-                        part.write(documentsPath + supportingDocumentsFileName); // Save the file to documents path
-                        candidate.setSupportingDocumentsUrl(documentsPath + supportingDocumentsFileName); // Set the path in candidate object
+                        part.write(documentsPath + supportingDocumentsFileName); 
+                        candidate.setSupportingDocumentsUrl(documentsPath + supportingDocumentsFileName); 
                     }
                 }
             }
 
-            // Register the candidate with electionId
+            
             candidateDao.registerCandidate(candidate, electionId);
 
             HttpSession session = request.getSession();
-            session.setAttribute("candidate", candidate); // Store candidate in session
+            session.setAttribute("candidate", candidate); 
 
             request.setAttribute("message", "Your application is under review. We will contact you via email. Status: Pending.");
             request.getRequestDispatcher("candidateSuccess.jsp").forward(request, response);
@@ -127,8 +127,6 @@ protected void doPost(HttpServletRequest request, HttpServletResponse response) 
     }
 }
 
-
-// Utility method to extract file name from part
     private String getFileName(Part part) {
         String contentDisposition = part.getHeader("content-disposition");
         for (String content : contentDisposition.split(";")) {
@@ -150,7 +148,6 @@ protected void doPost(HttpServletRequest request, HttpServletResponse response) 
                 out.write("{\"message\": \"No candidates found.\"}");
             } else {
                 response.setStatus(HttpServletResponse.SC_OK);
-//                String json = new Gson().toJson(Collections.singletonMap("candidates", candidates));
                 String json = objectMapper.writeValueAsString(Collections.singletonMap("candidates", candidates));
                 System.out.println("Response JSON: " + json);
                 out.print(json);

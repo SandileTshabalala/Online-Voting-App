@@ -31,7 +31,7 @@ public class VoterStatusServlet extends HttpServlet {
         String smtpHost = "smtp.gmail.com";
         String smtpPort = "587";
         String username = "youremail"; 
-        String password = "yourpassword";
+        String password = "youpassword";
         
         if (username == null || password == null) {
             throw new ServletException("SMTP credentials are not set in environment variables.");

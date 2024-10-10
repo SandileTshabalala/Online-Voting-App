@@ -10,29 +10,72 @@
     <head>
         <title>Manage Candidates</title>
         <style>
+            h1 {
+                color: #18181B;
+                text-align: center;
+            }
+
             table {
                 width: 100%;
                 border-collapse: collapse;
+                margin-bottom: 20px;
             }
-            th, td {
+
+            th {
+                background-color: #18181B;
+                color: white;
+                padding: 10px;
+            }
+
+            td {
                 border: 1px solid #ccc;
                 padding: 8px;
                 text-align: left;
             }
             img {
-                width: 100px; /* Adjust the size as needed */
+                width: 100px;
                 height: auto;
             }
+
+            button {
+                background-color: lightgrey;
+                color: #18181B;
+                padding: 10px 15px;
+                border: none;
+                border-radius: 4px;
+                cursor: pointer;
+                margin: 5px;
+                margin-right: 5px;
+            }
+
+            button:hover {
+                background-color: #fff;
+            }
+
+            a {
+                color: #007BFF;
+                text-decoration: none;
+            }
+
+            a:hover {
+                text-decoration: underline;
+            }
+
+            .alert {
+                color: red;
+            }
+
         </style>
         <script>
             function confirmAction(action, candidateName) {
                 return alert("Are you sure you want to " + action + " " + candidateName + "?")
-                 window.location.reload(); ;
+                window.location.reload();
+                ;
             }
         </script>
     </head>
     <body>
-        <h1>Manage Applications</h1>
+        <h1>Manage Applications</h1><br>
 
         <% 
         CandidateDao candidateDao = new CandidateDaoImpl();
@@ -43,7 +86,7 @@
             e.printStackTrace();
         }
         %>
-        
+
         <table>
             <thead>
                 <tr>

@@ -1,10 +1,21 @@
+<%@ page contentType="text/html;charset=UTF-8" pageEncoding="UTF-8" %>
+<%@ page import="java.util.List" %>
+<%@ page import="com.voting.dao.CandidateDao" %>
+<%@ page import="com.voting.dao.ElectionDao" %>
+<%@ page import="com.voting.dao.ResultsDao" %>
+<%@ page import="com.voting.implementation.CandidateDaoImpl" %>
+<%@ page import="com.voting.implementation.ResultsDaoImpl" %>
+<%@ page import="com.voting.implementation.ElectionDaoImpl" %>
+<%@ page import="com.voting.models.Candidate" %>
+<%@ page import="com.voting.models.Election" %>
+<%@ page import="com.voting.models.Voter" %>
+<%@ page import="com.voting.models.Results" %>
 <!DOCTYPE html>
 <html>
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <title>Dashboard</title>
-    <!-- Include Bootstrap CSS -->
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     <style>
         .card-box {
@@ -83,10 +94,6 @@
                         </div>
                         <div>
                             <p>Suspended Voters</p>
-                            <p></p>
-                        </div>
-                        <div>
-                            <p>Deleted Voters</p>
                             <p></p>
                         </div>
                     </div>

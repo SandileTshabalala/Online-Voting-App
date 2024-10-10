@@ -4,161 +4,162 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Online Voting System</title>
-    <link rel="stylesheet" href="./style/styling.css">
+    
     
     <style>
- /* Global Style Reset */
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
+        /* Global Style Reset */
+       * {
+           margin: 0;
+           padding: 0;
+           box-sizing: border-box;
+       }
 
-body {
-    font-family: 'Helvetica Neue', sans-serif;
-    background-color: #f0f4f8;
-    color: #333;
-    line-height: 1.6;
-}
+       body {
+           font-family: 'Helvetica Neue', sans-serif;
+           background-color: #f0f4f8;
+           color: #333;
+           line-height: 1.6;
+       }
 
-/* Header */
-header {
-    background-color:#1e90ff;
-    color: white;
-    padding: 2.5rem;
-    text-align: center;
-    border-bottom: 5px solid #94d2bd;
-}
+       /* Header */
+       header {
+           background-color:#28A745;
+           color: white;
+           padding: 2.5rem;
+           text-align: center;
+           border-bottom: 5px solid #94d2bd;
+       }
 
-header h1 {
-    font-size: 3rem;
-    font-weight: 700;
-    margin-bottom: 0.5rem;
-    letter-spacing: 2px;
-}
+       header h1 {
+           font-size: 3rem;
+           font-weight: 700;
+           margin-bottom: 0.5rem;
+           letter-spacing: 2px;
+       }
 
-header p {
-    font-size: 1.2rem;
-    font-weight: 300;
-    color: #d4f1f4;
-}
+       header p {
+           font-size: 1.2rem;
+           font-weight: 300;
+           color: #959595;
+       }
 
-/* Navigation Menu */
-nav {
-    background-color: white;
-    padding: 1rem 0;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-    margin-bottom: 2rem;
-}
+       /* Navigation Menu */
+       nav {
+           background-color: white;
+           padding: 1rem 0;
+           box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+           margin-bottom: 2rem;
+       }
 
-nav ul {
-    display: flex;
-    justify-content: center;
-    list-style: none;
-}
+       nav ul {
+           display: flex;
+           justify-content: center;
+           list-style: none;
+       }
 
-nav ul li a {
-    color: #f5f5f5;
-    text-decoration: none;
-    font-size: 1.2rem;
-    padding: 0.6rem 1.2rem;
-    background-color: #1e90ff;
-    border-radius: 30px;
-    transition: background 0.3s ease, color 0.3s ease;
-}
+       nav ul li a {
+           color: #f5f5f5;
+           text-decoration: none;
+           font-size: 1.2rem;
+           padding: 0.9rem 1.8rem;
+           margin: 0.4rem ;
+           background-color: #28A745;
+           border-radius: 30px;
+           transition: background 0.3s ease, color 0.3s ease;
+       }
 
-nav ul li a:hover {
-    background-color: #1e90ff;
-    color: #121212;
-}
+       nav ul li a:hover {
+           background-color: #91CDB9;
+           color: #121212;
+       }
 
-/* Main Content */
-main {
-    max-width: 1100px;
-    margin: 2rem auto;
-    padding: 2rem;
-    background-color: white;
-    border-radius: 10px;
-    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
-}
+       /* Main Content */
+       main {
+           max-width: 1100px;
+           margin: 2rem auto;
+           padding: 2rem;
+           background-color: white;
+           border-radius: 10px;
+           box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+       }
 
-main h2 {
-    font-size: 2.2rem;
-    color: #1e90ff;
-    margin-bottom: 1rem;
-}
+       main h2 {
+           font-size: 2.2rem;
+           color: #28A745;
+           margin-bottom: 1rem;
+       }
 
-main section {
-    margin-bottom: 2rem;
-}
+       main section {
+           margin-bottom: 2rem;
+       }
 
-main p {
-    font-size: 1.2rem;
-    color: #555;
-    margin-bottom: 1.2rem;
-}
+       main p {
+           font-size: 1.2rem;
+           color: #555;
+           margin-bottom: 1.2rem;
+       }
 
-main ol {
-    padding-left: 20px;
-    color: #555;
-}
+       main ol {
+           padding-left: 20px;
+           color: #555;
+       }
 
-main ol li {
-    margin-bottom: 1rem;
-    font-size: 1.1rem;
-}
+       main ol li {
+           margin-bottom: 1rem;
+           font-size: 1.1rem;
+       }
 
-/* Footer */
-footer {
-    background-color: #1e90ff;
-    color: white;
-    text-align: center;
-    padding: 1.5rem 0;
-    margin-top: 2rem;
-    border-top: 5px solid #94d2bd;
-}
+       /* Footer */
+       footer {
+           background-color: #28A745;
+           color: white;
+           text-align: center;
+           padding: 1.5rem 0;
+           margin-top: 2rem;
+           border-top: 5px solid #94d2bd;
+       }
 
-footer p {
-    font-size: 1rem;
-    letter-spacing: 1px;
-    font-weight: bold;
-}
+       footer p {
+           font-size: 1rem;
+           letter-spacing: 1px;
+           font-weight: bold;
+       }
 
-/* Buttons */
-button {
-    background-color: #94d2bd;
-    color: #005f73;
-    border: none;
-    padding: 0.8rem 1.5rem;
-    font-size: 1rem;
-    font-weight: bold;
-    border-radius: 8px;
-    cursor: pointer;
-    transition: background 0.3s ease;
-}
+       /* Buttons */
+       button {
+           background-color: #959595;
+           color: #005f73;
+           border: none;
+           padding: 0.8rem 1.5rem;
+           font-size: 1rem;
+           font-weight: bold;
+           border-radius: 8px;
+           cursor: pointer;
+           transition: background 0.3s ease;
+       }
 
-button:hover {
-    background-color: #76c3a8;
-}
+       button:hover {
+           background-color: #76c3a8;
+       }
 
-/* Media Queries */
-@media (max-width: 768px) {
-    nav ul {
-        flex-direction: column;
-    }
+       /* Media Queries */
+       @media (max-width: 768px) {
+           nav ul {
+               flex-direction: column;
+           }
 
-    nav ul li {
-        margin-bottom: 1.2rem;
-    }
+           nav ul li {
+               margin-bottom: 1.2rem;
+           }
 
-    main {
-        padding: 1.5rem;
-    }
+           main {
+               padding: 1.5rem;
+           }
 
-    header h1 {
-        font-size: 2.5rem;
-    }
-}
+           header h1 {
+               font-size: 2.5rem;
+           }
+       }
 
 
 
@@ -169,13 +170,13 @@ button:hover {
     <!-- Header -->
     <header>
         <h1>Welcome to the Online Voting System</h1>
-        <p>Secure, reliable, and transparent elections.</p>
+        <p style="color: #fff">Secure, reliable, and transparent elections.</p>
     </header>
 
     <!-- Navigation Menu -->
     <nav>
         <ul>
-            <li><a href="voterRegister.jsp">Voter Registration</a></li>
+            <li ><a href="voterRegister.jsp">Voter Registration</a></li>
             <li><a href="voterLogin.jsp">Voter Login</a></li>
             <li><a href="candidateRegister.jsp">Candidate Registration</a></li>
         </ul>
@@ -184,12 +185,12 @@ button:hover {
     <!-- Main Content -->
     <main>
         <section>
-            <h2>About the Online Voting System</h2>
+            <h2 style="color: #28A745">About the Online Voting System</h2>
             <p>This system allows registered users to participate in elections by securely voting online. Candidates can also register to run for positions, subject to admin approval.</p>
         </section>
 
         <section>
-            <h2>How it Works</h2>
+            <h2 style="color: #28A745">How it Works</h2>
             <ol>
                 <li>Voters register and log in to vote in the elections.</li>
                 <li>Candidates can register for elections, pending admin approval.</li>

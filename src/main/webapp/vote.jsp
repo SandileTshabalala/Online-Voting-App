@@ -31,22 +31,35 @@
 
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Vote</title>
-    <style>
-        table { width: 100%; border-collapse: collapse; }
-        th, td { border: 1px solid #ccc; padding: 8px; text-align: left; }
-    </style>
-</head>
-<body>
-    <h1>Vote for Your Candidates</h1>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Vote</title>
+        <style>
+            body{
+      
+}
+            table {
+                width: 100%;
+/*                border-collapse: collapse;*/
+                background-color: black;
+            }
+            th, td {
+                background-color: black;
+                color:white;
+                border: 1px solid #ccc;
+                padding: 8px;
+                text-align: left;
+            }
+        </style>
+    </head>
+    <body>
+        <h1>Vote for Your Candidates</h1>
 
-    <form action="SubmitVoteServlet" method="POST">
-        <input type="hidden" name="votingToken" value="<%= votingToken %>">
-        
-        <% for (Election election : elections) { %>
+        <form action="SubmitVoteServlet" method="POST">
+            <input type="hidden" name="votingToken" value="<%= votingToken %>">
+
+            <% for (Election election : elections) { %>
             <h2>Election: <%= election.getName() %></h2>
 
             <% 
@@ -66,8 +79,8 @@
                 <legend><%= position %></legend>
 
                 <% for (Candidate candidate : candidates) { %>
-                    <input type="radio" name="vote_<%= position.toLowerCase() %>" value="<%= candidate.getId() %>" required>
-                    Vote for <%= candidate.getFullName() %> (Party: <%= candidate.getPartyAffiliation() %>) <br>
+                <input type="radio" name="vote_<%= position.toLowerCase() %>" value="<%= candidate.getId() %>" required>
+                Vote for <%= candidate.getFullName() %> (Party: <%= candidate.getPartyAffiliation() %>) <br>
                 <% } %>              
                 <input type="radio" name="vote_<%= position.toLowerCase() %>" value="abstain" required> Abstain<br>
             </fieldset>
@@ -80,28 +93,27 @@
             %>
             <p>No candidates available for any positions in this election.</p>
             <% } %>
-        <% } %>
+            <% } %>
 
-        <button type="submit">Submit Votes</button>
-    </form>
+            <button type="submit">Submit Votes</button>
+        </form>
 
-    <h2>Your One-time Voting Key: 
-        <span style="color: <%= voter.isTokenUsed() ? "red" : "green" %>;">
-            <%= voter.getVotingToken() %>
-        </span>
-    </h2>
-    <h2>Token <%= voter.isTokenUsed() ? "Used" : "Not Yet Used" %></h2>
+        <h2>Your One-time Voting Key: 
+            <span style="color: <%= voter.isTokenUsed() ? "red" : "green" %>;">
+                <%= voter.getVotingToken() %>
+            </span>
+        </h2>
+        <h2>Token <%= voter.isTokenUsed() ? "Used" : "Not Yet Used" %></h2>
+        <a href="home.jsp"><button>See Votes</button></a>
         <script>
-        // JavaScript function to show alert if the voting token has already been used
-        function checkTokenUsed() {
-            const tokenUsed = <%= request.getAttribute("tokenUsed") != null ? request.getAttribute("tokenUsed") : "false" %>;
-            if (tokenUsed === true) {
-                alert("Your voting token has already been used. You cannot vote again.");
+            function checkTokenUsed() {
+                const tokenUsed = <%= request.getAttribute("tokenUsed") != null ? request.getAttribute("tokenUsed") : "false" %>;
+                if (tokenUsed === true) {
+                    alert("Your voting token has already been used. You cannot vote again.");
+                }
             }
-        }
-
-        // Call the function on page load
-        window.onload = checkTokenUsed;
-    </script>
-</body>
+            // Call the function on page load
+            window.onload = checkTokenUsed;
+        </script>
+    </body>
 </html>

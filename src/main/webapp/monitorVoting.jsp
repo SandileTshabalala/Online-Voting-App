@@ -2,6 +2,8 @@
 <!DOCTYPE html>
 <html>
 <head>
+        <link rel="stylesheet" href="style/admin">
+
     <title>Monitor Voting</title>
 </head>
 <body>

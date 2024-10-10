@@ -3,9 +3,52 @@
     <head>
         <meta charset="UTF-8">
         <title>Create Election</title>
+        <style>
+            h1 {
+                color: #18181B; 
+                text-align: center;
+            }
+            form {
+                background-color: #fff; 
+                padding: 20px; 
+                border-radius: 8px; 
+                box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); 
+                margin-bottom: 20px; 
+            }
+            input[type="text"],
+            input[type="date"],
+            textarea,
+            select {
+                width: 100%; 
+                padding: 10px; 
+                margin: 10px 0; 
+                border: 1px solid #ccc; 
+                border-radius: 4px; 
+            }
+            button {
+                background-color: #18181B; 
+                color: #fff; 
+                padding: 10px 15px; 
+                border: none; 
+                border-radius: 4px;
+                cursor: pointer; 
+            }
+
+            button:hover {
+                background-color: #333;
+            }
+            a {
+                color: #007BFF;
+                text-decoration: none; 
+            }
+
+            a:hover {
+                text-decoration: underline; 
+            }
+        </style>
     </head>
     <body>
-        <h1>Create a New Election</h1>
+        <h1>Create a New Election</h1><br>
 
         <form id="electionForm" action="ElectionServlet" method="post" onsubmit="return submitForm();">
             <input type="hidden" name="action" value="create">
@@ -52,8 +95,8 @@
                 if (!validateDates(startDate, endDate)) {
                     alert("Start date must be before or equal to the end date.");
                     return false;
-                }            
-               return true;
+                }
+                return true;
             }
         </script>
     </body>
